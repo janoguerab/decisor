@@ -6,16 +6,31 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatSnackBarModule,MatCardModule,MatToolbarModule,MatExpansionModule,MatIconModule,MatCheckboxModule,MatSliderModule,MatFormFieldModule,MatInputModule,MatStepperModule} from '@angular/material';
 
+//Firebase
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import{ AngularFireDatabaseModule} from 'angularfire2/database-deprecated';
+import { environment } from '../environments/environment';
+
 import { AppComponent } from './app.component';
 import { DecisorComponent } from './decisor/decisor.component';
+import { DecisionesComponent } from './decisiones/decisiones.component';
+import { PortadaComponent } from './portada/portada.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DecisorComponent
+    DecisorComponent,
+    DecisionesComponent,
+    PortadaComponent
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebaseconfig),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
     FormsModule,
     MatIconModule,
     MatToolbarModule,
