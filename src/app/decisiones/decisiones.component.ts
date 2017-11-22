@@ -3,9 +3,8 @@ import { Observable } from 'rxjs/Observable';
 // for auth
 import { AngularFireAuth } from 'angularfire2/auth';
 // for database
-//import { AngularFireDatabase } from 'angularfire2/database';
-import{ AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database-deprecated';
 import * as firebase from 'firebase/app';
+//import { AngularFireDatabase } from 'angularfire2/database';
 import { Estado } from '../estado';
 import { Opcion } from '../opcion';
 
@@ -16,13 +15,10 @@ import { Opcion } from '../opcion';
 })
 export class DecisionesComponent implements OnInit {
 
-  items: FirebaseListObservable<any[]>;
-  name: any;
-  decision: Opcion=new Opcion("",0);
+
 user: Observable<firebase.User>;
 
-  constructor(public db: AngularFireDatabase,public afAuth: AngularFireAuth ) {
-    this.items = db.list('items');
+  constructor(public afAuth: AngularFireAuth ) {
     this.user = afAuth.authState;
    }
 
@@ -30,12 +26,7 @@ user: Observable<firebase.User>;
      this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
    }
    logout() {
-  this.afAuth.auth.signOut();
-}
-
-   enviarDecision(miDecision: Opcion){
-     this.items.push({decitions: miDecision});
-     this.decision=new Opcion("",0);
+     this.afAuth.auth.signOut();
    }
 
   ngOnInit() {

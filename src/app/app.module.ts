@@ -17,13 +17,15 @@ import { AppComponent } from './app.component';
 import { DecisorComponent } from './decisor/decisor.component';
 import { DecisionesComponent } from './decisiones/decisiones.component';
 import { PortadaComponent } from './portada/portada.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DecisorComponent,
     DecisionesComponent,
-    PortadaComponent
+    PortadaComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
