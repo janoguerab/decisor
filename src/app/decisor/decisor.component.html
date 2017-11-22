@@ -1,0 +1,220 @@
+<mat-horizontal-stepper [linear]="true">
+  <mat-step>
+    <ng-template matStepLabel>Alternativas</ng-template>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>Alternativas</span>
+        <span style="flex: 1 1 auto;"></span>
+        <mat-icon style="padding: 0 14px;">call_split</mat-icon>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <form>
+      <mat-form-field  style="width: 50%;">
+        <input type="text" matInput placeholder="Nombre  de la alternativa" #alternativa>
+      </mat-form-field>
+      <mat-form-field style="width: 25%;">
+        <input type="number"matInput placeholder="Ganancia de la alternativa" #altGanancia value=0>
+      </mat-form-field>
+      <button mat-icon-button (click)="update(alternativa.value,altGanancia.value);alternativa.value='';altGanancia.value=0">
+        <mat-icon  color="primary">add_circle</mat-icon>
+      </button>
+    </form>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let item of alternativas">
+          <ul>
+            <li>{{item.nombre}}
+              <button mat-icon-button color="warn" (click)="eliminar(item)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button (click)=removeAll()>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <div>
+      <button mat-button matStepperNext>Siguiente</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Estados de la naturaleza</ng-template>
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>Sucesos</span>
+        <span style="flex: 1 1 auto;"></span>
+        <mat-icon style="padding: 0 14px;">all_inclusive</mat-icon>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div *ngFor="let item of alternativas">
+      <div *ngIf="!item.final;then content"></div>
+      <ng-template #content>
+        <mat-card>
+          <div>
+            <mat-card-header>
+              <mat-card-title>{{item.nombre}}</mat-card-title>
+              <mat-card-subtitle>Sucesos:</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div style="width: 100%;">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Simple
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      Si es un suceso simple
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <form>
+                    <mat-form-field style="width:25%">
+                      <input  type="text" matInput placeholder="Nombre del suceso" #sucesoNombre>
+                    </mat-form-field>
+                    <mat-form-field style="width:25%">
+                      <input  type="number" matInput placeholder="Probabilidad del suceso" value=0.00 #sucesoProbabiliad>
+                    </mat-form-field>
+                    <mat-form-field style="width:25%">
+                      <input  type="number" matInput placeholder="Ganancia del suceso" value=0 #sucesoGanancia>
+                    </mat-form-field>
+                    <button mat-icon-button (click)="sucesoUpdate(item,sucesoNombre.value,sucesoProbabiliad.value,sucesoGanancia.value);
+                    sucesoNombre.value='';
+                    sucesoProbabiliad.value=0.00;
+                    sucesoGanancia.value=0">
+                    <mat-icon  color="primary">add_circle</mat-icon>
+                  </button>
+                </form>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Compuesto
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Si es un suceso compuesto
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form>
+                  <mat-form-field style="width:25%">
+                    <input  type="text" matInput placeholder="Nombre del suceso compuesto" #sucesoCompuestoNombre>
+                  </mat-form-field>
+                  <mat-form-field style="width:25%">
+                    <input  type="number" matInput placeholder="Probabilidad del suceso compuesto" value=0.00 #sucesoCompuestoProbabiliad>
+                  </mat-form-field>
+                  <div >
+                    <mat-form-field style="width:25%">
+                      <input  type="text" matInput placeholder="Nombre del suceso" #sCompuestoNombre>
+                    </mat-form-field>
+                    <mat-form-field style="width:25%">
+                      <input  type="number" matInput placeholder="Probabilidad del suceso" value=0.00 #sCompuestoProbabiliad>
+                    </mat-form-field>
+                    <mat-form-field style="width:25%">
+                      <input  type="number" matInput placeholder="Ganancia del suceso" value=0 #sCompuestoGanancia>
+                    </mat-form-field>
+                    <button mat-icon-button (click)="sCompuestoUpdate(sucesoCompuestoNombre.value,sCompuestoNombre.value,sCompuestoProbabiliad.value,sCompuestoGanancia.value);
+                    sCompuestoNombre.value='';
+                    sCompuestoProbabiliad.value=0.00;
+                    sCompuestoGanancia.value=0">
+                    <mat-icon  color="primary">add_circle</mat-icon>
+                  </button>
+                  <div *ngFor="let est of compuesto.estados">
+                    <ul>
+                      <li>{{compuesto.nombre}} y {{est.nombre}}, con probabilidad de {{est.probabilidad}} y una ganancia de {{est.ganancia}}
+                        <button mat-icon-button color="warn" (click)="eliminarEstado(compuesto,est)">
+                          <mat-icon>remove_circle</mat-icon>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <button mat-button (click)="sucesoCompuestoUpdate(item,sucesoCompuestoNombre.value,sucesoCompuestoProbabiliad.value);
+                sCompuestoNombre.value='';
+                sCompuestoProbabiliad.value=0.00;
+                sCompuestoGanancia.value=0;
+                sucesoCompuestoNombre.value='';
+                sucesoCompuestoProbabiliad.value=0.00;">
+                Agregar suceso compuesto <mat-icon  color="primary">add_circle</mat-icon>
+              </button>
+            </form>
+          </mat-expansion-panel>
+        </div>
+        <div *ngFor="let estado of item.estados">
+          <ul>
+            <li>{{estado.nombre}}, con probabilidad de {{estado.probabilidad}} y una ganancia de {{estado.ganancia}}
+              <button mat-icon-button color="warn" (click)="eliminarEstado(item,estado)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</ng-template>
+</div>
+<div>
+  <button mat-button matStepperPrevious>Atrás</button>
+  <button mat-button matStepperNext (click)="getBest()">Siguiente</button>
+</div>
+</mat-step>
+
+<mat-step>
+  <ng-template matStepLabel>Decisión</ng-template>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Decisión</span>
+      <span style="flex: 1 1 auto;"></span>
+      <mat-icon style="padding: 0 14px;">start</mat-icon>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <p>
+    Tu mejor alternativa es: {{mejorOpcion.nombre}}
+  </p>
+  <p>
+    Con una esperanza de: {{mejorOpcion.ganancia}}
+  </p>
+  <div>
+    <button mat-button matStepperPrevious>Atrás</button>
+  </div>
+</mat-step>
+<!--
+<mat-step>
+  <ng-template matStepLabel>Mis decisiones</ng-template>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Mis decisiones</span>
+      <span style="flex: 1 1 auto;"></span>
+      <mat-icon style="padding: 0 14px;">start</mat-icon>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngFor="let decision of items">
+        <ul>
+          <li>{{decision.nombre}} con una ganancia de {{decision.ganancia}}
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+  </mat-card>
+  <div>
+    <button mat-button matStepperPrevious>Atrás</button>
+  </div>
+</mat-step>
+-->
+</mat-horizontal-stepper>
