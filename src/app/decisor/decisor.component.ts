@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { MatSliderChange } from '@angular/material';
+import { MatSliderChange,MatSnackBar } from '@angular/material';
 import { Estado } from '../estado';
 import { Opcion } from '../opcion';
 
@@ -14,12 +14,19 @@ export class DecisorComponent implements OnInit {
   alternativas:Opcion[]=[];
   isLinear = true;
   mejorOpcion:Opcion=new Opcion("",0);
+  compuesto:Opcion=new Opcion("",0);
 
-  constructor(private _formBuilder: FormBuilder) { }
+  constructor(public snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
      }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, "Cerrar", {
+      duration: 2000,
+    });
+  }
 
 
   getBest(){
@@ -34,7 +41,7 @@ export class DecisorComponent implements OnInit {
   update(value: string,gana: number) {
     let nuevaOpcion:Opcion=new Opcion(value,gana);
     if (gana==null){
-      nuevaOpcion.gana=0;
+      nuevaOpcion.ganancia=0;
     }
     if (gana!=0){
       nuevaOpcion.final=true;
@@ -42,6 +49,7 @@ export class DecisorComponent implements OnInit {
     if(value!=""){
       this.alternativas.push(nuevaOpcion);
     }
+    this.openSnackBar("Nueva alternativa: " +value);
   }
 
   sucesoUpdate(opcion: Opcion, nombre:string,prob: number,gan: number){
@@ -54,20 +62,48 @@ export class DecisorComponent implements OnInit {
     if(nombre!=""){
       opcion.addEstado(new Estado(nombre,prob,gan));
     }
+    this.openSnackBar("Nuevo suceso: " +nombre);
   }
 
   eliminar(alternativa: Opcion){
     var index = this.alternativas.indexOf(alternativa);
     if (index > -1) {
       this.alternativas.splice(index, 1);
+      this.openSnackBar(alternativa.nombre+" fue borrada.");
     }
   }
   eliminarEstado(opc: Opcion,suceso: Estado){
   opc.delEstado(suceso);
+  this.openSnackBar(suceso.nombre+" fue borrado.");
   }
 
  removeAll(){
    this.alternativas=[];
+   this.openSnackBar("Todas las alternativas fueron borradas.!");
   }
 
+  sCompuestoUpdate(nam:string,nom:string,probab: number,ganan: number){
+    if (ganan==null){
+      ganan=0;
+    }
+    if (probab==null) {
+        probab=0.00;
+    }
+    if(nom!=""){
+      this.compuesto.nombre=nam;
+      this.compuesto.addEstado(new Estado(nom,probab,ganan));
+    }
+    this.openSnackBar("Nuevo suceso compuesto: " +nom);
+  }
+
+  sucesoCompuestoUpdate(opc: Opcion,name:string,pro: number){
+    if (pro==null) {
+        pro=0.00;
+    }
+    if(name!=""){
+      opc.addEstado(new Estado(name,pro,this.compuesto.ganancia));
+    }
+    this.compuesto=new Opcion("",0);
+    this.openSnackBar("Nuevo suceso: " +name);
+  }
 }

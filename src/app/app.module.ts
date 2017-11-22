@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule,MatExpansionModule,MatIconModule,MatCheckboxModule,MatSliderModule,MatFormFieldModule,MatInputModule,MatStepperModule} from '@angular/material';
+import {MatButtonModule, MatSnackBarModule,MatCardModule,MatToolbarModule,MatExpansionModule,MatIconModule,MatCheckboxModule,MatSliderModule,MatFormFieldModule,MatInputModule,MatStepperModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { DecisorComponent } from './decisor/decisor.component';
@@ -18,9 +18,11 @@ import { DecisorComponent } from './decisor/decisor.component';
     BrowserModule,
     FormsModule,
     MatIconModule,
+    MatToolbarModule,
     MatFormFieldModule,
     MatExpansionModule,
     MatCardModule,
+    MatSnackBarModule,
     MatInputModule,
     MatSliderModule,
     ReactiveFormsModule,
