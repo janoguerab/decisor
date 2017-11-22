@@ -1,0 +1,26 @@
+<div *ngIf="afAuth.authState | async; let user; else showLogin">
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{ user.displayName }}</span>
+    <span style="flex: 1 1 auto;"></span>
+    <button mat-button (click)="logout()">Salir
+      <mat-icon  color="warn">power_settings_new</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+      <app-decisor></app-decisor>
+      <app-footer style="position: absolute;
+    left: 0 ; right: 0; bottom: 0;
+    height:[footer-height] "></app-footer>
+    </div>
+    <ng-template #showLogin>
+      <mat-toolbar color="primary">
+        <mat-toolbar-row>
+          <span style="flex: 1 1 auto;"></span>
+            <button mat-button (click)="login()">Inicia sesión con Google
+            <mat-icon  color="success">fingerprint</mat-icon>
+          </button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <app-portada></app-portada>
+    </ng-template>

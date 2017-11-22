@@ -186,4 +186,35 @@
     <button mat-button matStepperPrevious>Atrás</button>
   </div>
 </mat-step>
+<!--
+<mat-step>
+  <ng-template matStepLabel>Mis decisiones</ng-template>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>Mis decisiones</span>
+      <span style="flex: 1 1 auto;"></span>
+      <mat-icon style="padding: 0 14px;">start</mat-icon>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngFor="let decision of items">
+        <ul>
+          <li>{{decision.nombre}} con una ganancia de {{decision.ganancia}}
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+  </mat-card>
+  <div>
+    <button mat-button matStepperPrevious>Atrás</button>
+  </div>
+</mat-step>
+-->
 </mat-horizontal-stepper>

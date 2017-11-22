@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MatSliderChange,MatSnackBar } from '@angular/material';
+import{ AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database-deprecated';
+import * as firebase from 'firebase/app';
 import { Estado } from '../estado';
 import { Opcion } from '../opcion';
 
@@ -11,12 +13,16 @@ import { Opcion } from '../opcion';
 })
 export class DecisorComponent implements OnInit {
 
+  decisiones: FirebaseListObservable<any[]>;
+
   alternativas:Opcion[]=[];
   isLinear = true;
   mejorOpcion:Opcion=new Opcion("",0);
   compuesto:Opcion=new Opcion("",0);
 
-  constructor(public snackBar: MatSnackBar) { }
+  constructor(public db: AngularFireDatabase,public snackBar: MatSnackBar) {
+      this.decisiones = db.list('decisiones');
+  }
 
   ngOnInit() {
 
@@ -105,5 +111,10 @@ export class DecisorComponent implements OnInit {
     }
     this.compuesto=new Opcion("",0);
     this.openSnackBar("Nuevo suceso: " +name);
+  }
+
+  enviarDecision(){
+    this.decisiones.push({decision: this.mejorOpcion});
+    this.mejorOpcion=new Opcion("",0);
   }
 }
